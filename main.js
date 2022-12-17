@@ -1,100 +1,108 @@
-var inOne = 0;
-var inTwo;
-var count = 0;
+var answer;
 var operator;
-var arrInd = 0;
+var out = document.getElementById("output");
 const arr = [];
 
 
-const add = function (x, y) {
-    alert(x + y);
-    return (x + y);
-};
+// function operate(operator) {
+//     if(operator == "add")
+//         add(arr)
+// }
 
-const subtract = function (x, y) {
-    return (x - y);
-};
+function setDisplay(display) {
+    if(out.textContent == "add" || out.textContent == "subtract" || out.textContent == "multiply" || out.textContent == "divide" || out.textContent == "equals")
+        clear();
 
-
-const multiply = function (x, y) {
-    return (x * y);
-};
-
-const divide = function (x, y) {
-    return (x / y);
+    out.insertAdjacentText('beforeend', display);
 }
+
+function clear() {
+    out.innerHTML = '';
+}
+
+function setNumber() {
+    arr.push(out.textContent);
+    console.log(arr);
+}
+
+const add = function () {
+    clear();
+    answer = parseInt(arr[0]) + parseInt(arr[1]);
+};
+
+const subtract = function () {
+    clear();
+    answer = parseInt(arr[0]) - parseInt(arr[1]);
+};
+
+
+const multiply = function () {
+    clear();
+    answer = parseInt(arr[0]) * parseInt(arr[1]);
+};
+
+const divide = function () {
+    clear();
+    answer = parseInt(arr[0]) / parseInt(arr[1]);
+}
+
+const equals = function () {
+
+    if(operator == "add")
+        add();
+    else if(operator == "subtract")
+        subtract();
+    else if(operator == "multiply")
+        multiply();
+    else if(operator == "divide")
+        divide();
+
+    //alert(answer);
+    setDisplay(answer);
+}
+
 
 //Calculator buttons
 const buttons = document.querySelectorAll('button');
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
 
-        console.log("COUNT: " + count);
+        //Debug
+        console.log(button.id + " pressed!");
 
-        var div = document.getElementById("output");
+        if(button.classList.contains("operations"))
+            console.log("CLASS: " + button.className);
 
-        // arr.push(button.id);
+        if(button.classList.contains("operations"))
+            setNumber();
 
-        if (button.id == "add" || operator == "add") {
-            operator == "add";
-            arr.push(div.textContent);
-            console.log(arr[arrInd]);
-            arrInd++;
-            div.textContent = "+";
-            count = -1;
+        //Debug
+        // console.log("Output: " + out.textContent);
+
+        if(button.id == "add") {
+            operator = "add";
+            add();
         }
-        else if (button.id == "subtract" || operator == "subtract") {
-            operator == "subtract";
+        else if(button.id == "subtract") {
+            operator = "subtract";
+            subtract();
         }
-        else if (button.id == "multiply" || operator == "multiply") {
-            operator == "multiply";
+        else if(button.id == "multiply"){
+            operator = "multiply";
+            multiply();
         }
-        else if (button.id == "divide" || operator == "divide") {
-            operator == "divide";
+        else if(button.id == "divide") {
+            operator = "divide";
+            divide();
         }
-        else if (button.id == "equals") {
-            arr.push(div.textContent);
-            arrInd = 0;
-            count = 0;
-        }
-        else {
-            if (count == 0) {
-                div.innerHTML = button.id;
-            }
-            // alert(button.id);
-            //document.getElementById("output").innerHTML = button.id;
-            else {
-                div = document.getElementById("output");
-                var content = document.createTextNode(button.id);
-                div.appendChild(content);
-            }
-        }
+        else if(button.id == "equals")
+            equals();
 
+        if(button.id != "equals")
+            setDisplay(button.id);
 
-
-        count++;
-
-        // if (button.id === "equals") {
-        //     arr.forEach(function (entry) {
-        //         console.log(entry);
-        //     });
-
-        //     if (arr.includes("add")) {
-
-        //     }
-        //     else if (arr.includes("subtract")) {
-
-        //     }
-        //     else if (arr.includes("multiply")) {
-
-        //     }
-        //     else if (arr.includes("divide")) {
-
-        //     }
-        //     else {
-
-        //     }
-        // }
+        if(button.id == "clear")
+            clear();
 
     });
 });
